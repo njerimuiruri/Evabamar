@@ -8,11 +8,8 @@ import {
   FlatList,
   StyleSheet,
 } from 'react-native';
-import {icons, images} from '../../constants';
-import Recommended from './Recommended';
-import {Fab} from '../../components';
 
-const Account = ({navigation}) => {
+const Orders = ({navigation}) => {
   const styles = StyleSheet.create({
     customFont: {
       fontFamily: 'serif',
@@ -26,9 +23,8 @@ const Account = ({navigation}) => {
       <Text style={styles.customFont} className="text-center text-black">
         coming soon
       </Text>
-      <Fab />
     </View>
   );
 };
 
-export default Account;
+export default Orders;

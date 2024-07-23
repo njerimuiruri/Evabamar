@@ -1,37 +1,36 @@
-import React, {memo, useState} from 'react';
+import React, {memo} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {Rating} from 'react-native-ratings';
 import {icons} from '../../constants';
-import {Button, Popover} from 'native-base';
-import FastImage from 'react-native-fast-image';
+import {Button} from 'native-base';
 
-const ProductCard = ({
+const ProductCard2 = ({
   product,
   navigation,
+  image,
   setPressedId,
   setModalVisible,
   setGasTitle,
+  setGaskgs,
 }) => {
-  // console.log(pressedId);
-
   return (
     <View className="flex items-center p-1">
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('ProductDetails', {
-            product: product,
-          })
-        }>
+      <TouchableOpacity>
         <Image
-          source={{uri: product.images[0].url}}
+          source={{uri: image}}
           className="w-[120px] h-[120px]"
           resizeMode="contain"
         />
       </TouchableOpacity>
 
-      <Text className="text-black text-[13px] mt-3" style={styles.customFont}>
-        {product.title}
-      </Text>
+      <View className="flex flex-row space-x-1">
+        <Text className="text-black text-[13px] mt-3" style={styles.customFont}>
+          {product.kgs} Kgs
+        </Text>
+        <Text className="text-black text-[13px] mt-3" style={styles.customFont}>
+          {product.title}
+        </Text>
+      </View>
       <Text className="text-black text-[15px] font-bold text-center mt-[5px]">
         Ksh {product.price}
       </Text>
@@ -41,7 +40,8 @@ const ProductCard = ({
         onPress={() => {
           setPressedId(product._id),
             setGasTitle(product.title),
-            setModalVisible(true);
+            setModalVisible(true),
+            setGaskgs(product.kgs);
         }}>
         <Button
           mt={2}
@@ -55,6 +55,7 @@ const ProductCard = ({
           </Text>
         </Button>
       </TouchableOpacity>
+
       <View className="absolute top-1 right-1 bg-green-300 rounded-md">
         <View className="flex flex-row items-center space-x-1 p-0.5 ">
           <Text className="text-black text-[11px]">units</Text>
@@ -70,4 +71,4 @@ const styles = StyleSheet.create({
     fontFamily: 'serif',
   },
 });
-export default ProductCard;
+export default ProductCard2;

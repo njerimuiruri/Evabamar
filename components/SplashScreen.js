@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {icons} from '../constants';
 import SplashScreen from 'react-native-splash-screen';
 import FastImage from 'react-native-fast-image';
-import {orange100} from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 const styles = StyleSheet.create({
   customFont: {

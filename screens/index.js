@@ -37,6 +37,12 @@ import Home from './Home';
 import ProductDetails from './productDetails/ProductDetails';
 import Account from './Account/Account';
 import Cart from './cart/cart';
+import Category from './category/category';
+import AddCategory from './category/AddCategory';
+import EditCategory from './category/EditCategory ';
+import AddSubCategory from './category/AddSubCategory ';
+import EditSubCategory from './category/EditSubCategory ';
+import Orders from './orders/Orders';
 
 export {
   OnBoarding,
@@ -49,4 +55,10 @@ export {
   ProductDetails,
   Account,
   Cart,
+  Category,
+  AddCategory,
+  EditCategory,
+  AddSubCategory,
+  EditSubCategory,
+  Orders,
 };

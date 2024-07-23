@@ -94,6 +94,7 @@ const sales = require('../assets/icons/sales.png');
 const loss = require('../assets/icons/lossbar.png');
 const bar = require('../assets/icons/bar.png');
 const dotmenu = require('../assets/icons/dotmenu.png');
+const scissors = require('../assets/icons/scissors.png');
 
 export default {
   apple,
@@ -191,4 +192,5 @@ export default {
   loss,
   bar,
   dotmenu,
+  scissors,
 };

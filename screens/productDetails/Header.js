@@ -2,9 +2,9 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {icons} from '../../constants';
 
-const Header = ({navigation}) => {
+const Header = ({navigation, title}) => {
   return (
-    <View className="h-[55px] bg-gray-100 flex flex-row items-center justify-between px-2">
+    <View className="h-[55px] bg-white flex flex-row items-center justify-between px-2">
       <View className="flex flex-row space-x-3 items-center">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -16,26 +16,9 @@ const Header = ({navigation}) => {
           />
         </TouchableOpacity>
 
-        <Text className="text-black font-bold text-[20px]">Details</Text>
+        <Text className="text-black font-bold text-[20px]">{title}</Text>
       </View>
       <View className="flex flex-row space-x-4 items-center">
-        <TouchableOpacity className="relative  bg-white  p-2.5 rounded-full">
-          <Image
-            source={icons.search}
-            className="w-[20px] h-[20px]"
-            resizeMode="contain"
-            style={{tintColor: 'black'}}
-            alt="image"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity className=" bg-white  p-2.5 rounded-full">
-          <Image
-            source={icons.heart}
-            className="w-[20px] h-[20px]"
-            style={{tintColor: 'black'}}
-          />
-        </TouchableOpacity>
         <TouchableOpacity className="relative bg-white  p-2.5 rounded-full">
           <Image
             source={icons.cart}

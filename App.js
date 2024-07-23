@@ -25,6 +25,12 @@ import {
   ProductDetails,
   Account,
   Cart,
+  Category,
+  AddCategory,
+  EditCategory,
+  AddSubCategory,
+  EditSubCategory,
+  Orders,
 } from './screens';
 import DrawerNav from './navigation/drawer/drawer1/DrawerNav1';
 import {ToastProvider} from 'react-native-toast-notifications';
@@ -140,6 +146,36 @@ export default function App() {
             <Stack.Screen
               name="Cart"
               component={Cart}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Category"
+              component={Category}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="AddCategory"
+              component={AddCategory}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="EditCategory"
+              component={EditCategory}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="AddSubCategory"
+              component={AddSubCategory}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="EditSubCategory"
+              component={EditSubCategory}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Orders"
+              component={Orders}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

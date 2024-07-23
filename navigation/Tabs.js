@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, View, Image, Animated} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {icons} from '../constants';
-import {Home, SignIn, SignUp, Cart, Account} from '../screens';
+import {Home, Orders, SignUp, Cart, Account, Category} from '../screens';
 import {useDrawerStatus} from '@react-navigation/drawer';
 
 const Tab = createMaterialTopTabNavigator();
@@ -20,11 +20,18 @@ const TabArr = [
     label: 'Categories',
     activeIcon: icons.categories,
     inActiveIcon: require('../assets/icons/setting.png'),
-    Component: SignIn,
+    Component: Category,
   },
   {
     route: 'Orders',
     label: 'Orders',
+    activeIcon: icons.orders,
+    inActiveIcon: require('../assets/icons/setting.png'),
+    Component: Orders,
+  },
+  {
+    route: 'Cart',
+    label: 'Cart',
     activeIcon: icons.cart,
     inActiveIcon: require('../assets/icons/setting.png'),
     Component: Cart,
@@ -102,8 +109,6 @@ export default function Tabs({navigation}) {
               top: 0,
               height: 5,
               width: 80,
-              marginLeft: 10,
-              marginRight: 25,
               backgroundColor: '#00B074',
               borderBottomRightRadius: 3,
               borderBottomLeftRadius: 3,

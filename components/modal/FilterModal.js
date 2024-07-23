@@ -18,25 +18,28 @@ import axios from 'axios';
 import {base_url} from '../../utils/baseUrl';
 import config from '../../utils/axiosconfig';
 import LottieView from 'lottie-react-native';
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDIwMDI1ZDJmYWQ2OWIwNzM3MDBhYjgiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODQxNTc2NjAsImV4cCI6MTY4NDI0NDA2MH0.hjMdgn0NCsnc3UW5PgYbZab-w50CEQxey2fXTbZyVNU';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FilterModal = ({isVisible, onClose, product}) => {
   const {width, height} = Dimensions.get('window');
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedQty, setSelectedQty] = useState(null);
+  const [categoryId, setCategoryId] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(isVisible);
   const [value, setValue] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  // console.log(product);
+
   const toast = useToast();
 
   const cartData = {
-    productId: product._id,
+    productId: categoryId,
     quantity: value,
-    color: selectedColor,
   };
 
-  const addToCart = async () => {
+  // console.log(cartData);
+
+  const addToCart = async token => {
     try {
       const api = axios.create({
         baseURL: base_url,
@@ -45,16 +48,19 @@ const FilterModal = ({isVisible, onClose, product}) => {
       setLoading(true);
 
       const res = await api.post('/cart', cartData);
-      console.log(res);
+      // console.log(res);
       if (res.data.message == 'Item added to cart successfully') {
         setLoading(false);
-        toast.show(`${value} ${selectedColor} ${product.title} added to cart`, {
-          type: 'success',
-          placement: 'top',
-          duration: 2000,
-          offset: 30,
-          animationType: 'zoom-in',
-        });
+        toast.show(
+          `${value}, ${selectedQty}Kgs ${product.title} added to cart`,
+          {
+            type: 'success',
+            placement: 'top',
+            duration: 2000,
+            offset: 30,
+            animationType: 'zoom-in',
+          },
+        );
         setTimeout(() => {
           onClose();
         }, 2000);
@@ -85,8 +91,8 @@ const FilterModal = ({isVisible, onClose, product}) => {
   };
 
   const handleCartData = async () => {
-    if (selectedColor === null) {
-      return toast.show('Please select the correct color', {
+    if (selectedQty === null) {
+      return toast.show('Please select the correct gas quantity', {
         type: 'warning',
         placement: 'top',
         duration: 2000,
@@ -94,7 +100,13 @@ const FilterModal = ({isVisible, onClose, product}) => {
         animationType: 'zoom-in',
       });
     }
-    addToCart();
+    // Retrieving token
+    try {
+      const token = await AsyncStorage.getItem('token');
+      addToCart(token);
+    } catch (error) {
+      console.log('Error retrieving token:', error);
+    }
     console.log('next2');
   };
 
@@ -155,14 +167,14 @@ const FilterModal = ({isVisible, onClose, product}) => {
           {/* loading animation  */}
           {loading ? (
             <View
-              className={`absolute top-[28%] left-[37%]
+              className={`absolute top-[36%] left-[36%]
           `}>
               <LottieView
-                source={require('../../assets/loader1.json')}
+                source={require('../../assets/Evabamar.json')}
                 autoPlay
                 loop
-                width={100}
-                height={100}
+                width={120}
+                height={120}
               />
             </View>
           ) : null}
@@ -203,26 +215,37 @@ const FilterModal = ({isVisible, onClose, product}) => {
                 </TouchableOpacity>
               </View>
 
-              {/* colors  */}
+              {/* quantity  */}
               <View className="mt-[30px]">
-                <Text className="text-black text-[17px]">Colors</Text>
+                <Text className="text-black text-[17px]">Quantity</Text>
                 <View className="mt-[10px]">
                   <FlatList
-                    data={product.colors}
+                    data={product.category}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    ItemSeparatorComponent={<View className="w-2" />}
+                    ItemSeparatorComponent={<View className="w-3" />}
                     keyExtractor={item => `${item._id}`}
                     renderItem={({item}, props) => {
                       return (
                         <>
-                          {/* <View className=" rounded-md">
-                            <ColorComponent
-                              color={item}
-                              setSelectedColor={setSelectedColor}
-                              selectedColor={selectedColor}
+                          <TouchableOpacity
+                            className={`rounded-md border p-2 ${
+                              selectedQty == item.kgs
+                                ? 'border-red-600'
+                                : 'border-green-600'
+                            }`}
+                            onPress={() => {
+                              setSelectedQty(item.kgs), setCategoryId(item._id);
+                            }}>
+                            <FastImage
+                              source={{uri: product.images[0].url}}
+                              className="w-[70px] h-[70px]"
+                              resizeMode="contain"
                             />
-                          </View> */}
+                            <Text className="text-[13px] text-center font-bold text-black">
+                              {item.kgs} Kgs
+                            </Text>
+                          </TouchableOpacity>
                         </>
                       );
                     }}
@@ -275,7 +298,7 @@ const FilterModal = ({isVisible, onClose, product}) => {
             </View>
             {product.quantity > 0 ? (
               <TouchableOpacity
-                className="absolute top-[460px] w-full  h-[50px] bg-red-500 rounded-full items-center justify-center"
+                className="absolute top-[460px] w-full  h-[50px] bg-green-500 rounded-full items-center justify-center"
                 onPress={() => handleCartData()}>
                 <Text className="text-white text-[17px] font-bold">OK</Text>
               </TouchableOpacity>
@@ -283,8 +306,8 @@ const FilterModal = ({isVisible, onClose, product}) => {
               <TouchableOpacity
                 className="absolute top-[460px] w-full  h-[50px] bg-green-500 rounded-full items-center justify-center"
                 onPress={() => {
-                  toast.show(`Sucess, we shall contact you soon!`, {
-                    type: 'success',
+                  toast.show(`Out of Stock!`, {
+                    type: 'danger',
                     placement: 'top',
                     duration: 4000,
                     offset: 30,
@@ -295,7 +318,7 @@ const FilterModal = ({isVisible, onClose, product}) => {
                   }, 2000);
                 }}>
                 <Text className="text-white text-[17px] font-bold">
-                  Notify me on arrival
+                  Out of Stock
                 </Text>
               </TouchableOpacity>
             )}
